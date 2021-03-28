@@ -5,6 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +28,7 @@ import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 
 @RestController
-@RequestMapping(value = "/cozinhas") //, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/cozinhas")
 public class CozinhaController {
 
 	@Autowired
@@ -41,24 +44,21 @@ public class CozinhaController {
 	CozinhaInputDisassembler cozinhaInputDisassembler;
 	
 	@GetMapping()
-	public List<CozinhaModel> listarJSON() {
-		List<Cozinha> listaCozinha = cozinhaRepository.findAll();
-		return cozinhaModelAssembler.toModelList(listaCozinha);
+	public Page<CozinhaModel> listar(Pageable pageable) {
+		
+		Page<Cozinha> pageCozinhas = cozinhaRepository.findAll(pageable);
+		
+		List<CozinhaModel> listaCozinha = cozinhaModelAssembler.toModelList(pageCozinhas.getContent());
+		
+		Page<CozinhaModel> page = new PageImpl<CozinhaModel>(listaCozinha, pageable, pageCozinhas.getTotalElements());
+		
+		return page;
 	}
-	
-//	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-//	public CozinhaXmlWrapper listarXML() {
-//		return new CozinhaXmlWrapper(cozinhaRepository.findAll());
-//	}
 	
 	@GetMapping("/{cozinhaId}")
 	public CozinhaModel buscar(@PathVariable Long cozinhaId) {
 		Cozinha cozinha =  cadastroCozinha.buscarOuFalhar(cozinhaId);
 		return cozinhaModelAssembler.toModel(cozinha);
-		
-		//HttpHeaders headers = new HttpHeaders();
-		//headers.add(HttpHeaders.LOCATION, "http://localhost:8080/cozinhas");	
-		//return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
 	}
 	
 	@PostMapping
