@@ -5,6 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,9 +56,13 @@ public class PedidoController {
 	EmissaoPedidoService emissaoPedido;
 	
 	@GetMapping
-	public List<PedidoResumoModel> pesquisar(PedidoFilter filtro){
+	public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro,@PageableDefault(size = 10) Pageable pageable){
 		
-		return pedidoResumoModelAssembler.toModelList(pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro)));
+		Page<Pedido> page = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
+		
+		List<PedidoResumoModel> listaPedidos = pedidoResumoModelAssembler.toModelList(page.getContent());
+		
+		return new PageImpl<PedidoResumoModel>(listaPedidos, pageable, page.getTotalElements());
 	}
 	
 	
