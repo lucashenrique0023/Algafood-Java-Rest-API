@@ -28,15 +28,19 @@ public class VendaQueryServiceImpl implements VendaQueryService {
 	EntityManager manager;
 	
 	@Override
-	public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filtro) {
+	public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filtro, String timeOffset) {
 
 		CriteriaBuilder builder = manager.getCriteriaBuilder();	
 		CriteriaQuery<VendaDiaria> criteriaQuery = builder.createQuery(VendaDiaria.class);	
 		Root<Pedido> root = criteriaQuery.from(Pedido.class);
 		
-		Expression<Date> functionDateDataCriacao = builder.function("date", Date.class, root.get("dataCriacao"));
+		Expression<Date> functionDateOffsetTimeZone = builder.function("convert_tz", 
+				Date.class, 
+				root.get("dataCriacao"),
+				builder.literal("+00:00"), 
+				builder.literal(timeOffset));
 		
-		
+		Expression<Date> functionDateDataCriacao = builder.function("date", Date.class, functionDateOffsetTimeZone);		
 		
 		Selection<VendaDiaria> selection = builder.construct(VendaDiaria.class, 
 				functionDateDataCriacao, 
