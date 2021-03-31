@@ -17,6 +17,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<modelmapper.version>2.3.0</modelmapper.version>
+		<jasperreports.version>6.10.0</jasperreports.version>
 	</properties>
 
 	<dependencies>
@@ -83,7 +84,17 @@
 		  <artifactId>modelmapper</artifactId>
 		  <version>${modelmapper.version}</version>
 		</dependency>
-		
+		<dependency>
+		  <groupId>net.sf.jasperreports</groupId>
+		  <artifactId>jasperreports</artifactId>
+		  <version>${jasperreports.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>net.sf.jasperreports</groupId>
+		  <artifactId>jasperreports-functions</artifactId>
+		  <version>${jasperreports.version}</version>
+		</dependency>
+				
 	</dependencies>
 
 	<build>
