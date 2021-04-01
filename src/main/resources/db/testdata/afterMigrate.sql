@@ -1,5 +1,6 @@
 set foreign_key_checks = 0;
 
+delete from foto_produto;
 delete from cidade;
 delete from cozinha;
 delete from estado;
