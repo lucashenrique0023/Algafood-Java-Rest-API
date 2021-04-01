@@ -11,7 +11,7 @@ import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 
 @Repository
-public interface ProdutoRepository extends CustomJPARepository<Produto, Long>{
+public interface ProdutoRepository extends CustomJPARepository<Produto, Long>, ProdutoRepositoryQueries {
 
 	public Optional<Produto> findByIdAndRestaurante_id(Long id, Long restauranteId);  
 	
