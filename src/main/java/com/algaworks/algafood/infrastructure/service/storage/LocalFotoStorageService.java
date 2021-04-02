@@ -29,4 +29,16 @@ public class LocalFotoStorageService implements FotoStorageService {
 		return diretorioFotos.resolve(Path.of(nomeArquivo));
 	}
 
+	@Override
+	public void remover(String nomeArquivo) {
+		Path arquivoPath = getArquivoPath(nomeArquivo);
+		
+		try {
+			Files.deleteIfExists(arquivoPath);
+		} catch (Exception e) {
+			throw new StorageException("Nao foi possivel excluir o arquivo.", e);
+		}
+		
+	}
+
 }
