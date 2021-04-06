@@ -25,7 +25,7 @@ public class FluxoPedidoService {
 				.assunto(pedido.getRestaurante().getNome() + " - Pedido confirmado")
 				.corpo("pedido-confirmado.html")
 				.variavel("pedido", pedido)
-				.destinarario(pedido.getCliente().getEmail())
+				.destinatario(pedido.getCliente().getEmail())
 				.build();
 		
 		envioEmail.enviar(mensagem);
