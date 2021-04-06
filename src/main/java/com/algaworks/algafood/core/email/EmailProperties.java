@@ -15,8 +15,15 @@ import lombok.Setter;
 @Component
 @ConfigurationProperties("algafood.email")
 public class EmailProperties {
+	
+	public enum TipoEnvioEmail {
+		SMTP, FAKE
+	}
 
 	@NotNull
 	private String remetente;
+	
+	@NotNull
+	private TipoEnvioEmail impl = TipoEnvioEmail.FAKE;
 	
 }
