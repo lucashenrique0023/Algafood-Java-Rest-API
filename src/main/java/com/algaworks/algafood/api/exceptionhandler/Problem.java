@@ -35,7 +35,7 @@ public class Problem {
 	@ApiModelProperty(example = "2021-04-17T13:02:54.9345614Z", position = 25)
 	private OffsetDateTime timestamp;
 	
-	@ApiModelProperty(example = "Lista de campos que geraram o erro", position = 30)
+	@ApiModelProperty(example = "Lista de campos que geraram o erro (Opcional)", position = 30)
 	private List<Field> fields;
 	
 	@ApiModel("CampoProblema")

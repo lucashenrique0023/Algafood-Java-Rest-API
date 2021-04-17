@@ -19,6 +19,7 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.ResponseMessage;
@@ -36,119 +37,97 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 	public Docket apiDocket() {
 		
 		var typeResolver = new TypeResolver();
-		
-		return new Docket(DocumentationType.SWAGGER_2)
-					.select()
-						.apis(RequestHandlerSelectors.basePackage("com.algaworks.algafood.api"))
-						.paths(PathSelectors.any())
+
+		return new Docket(DocumentationType.SWAGGER_2).select()
+				.apis(RequestHandlerSelectors.basePackage("com.algaworks.algafood.api")).paths(PathSelectors.any())
 //						.paths(PathSelectors.ant("/restaurantes/*"))
-						.build()
-						.useDefaultResponseMessages(false)
-						.globalResponseMessage(RequestMethod.GET, globalGetResponseMessages())
-						.globalResponseMessage(RequestMethod.PUT, globalPutResponseMessages())
-						.globalResponseMessage(RequestMethod.POST, globalPostResponseMessages())
-						.globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
-						.additionalModels(typeResolver.resolve(Problem.class))
-						.apiInfo(apiInfo())
-						.tags(new Tag("Cidades", "Gerencia as cidades"));
+				.build().useDefaultResponseMessages(false)
+				.globalResponseMessage(RequestMethod.GET, globalGetResponseMessages())
+				.globalResponseMessage(RequestMethod.PUT, globalPutResponseMessages())
+				.globalResponseMessage(RequestMethod.POST, globalPostResponseMessages())
+				.globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
+				.additionalModels(typeResolver.resolve(Problem.class)).apiInfo(apiInfo())
+				.tags(new Tag("Cidades", "Gerencia as cidades"));
 	}
-	
+
 	private List<ResponseMessage> globalGetResponseMessages() {
 		return Arrays.asList(
-					new ResponseMessageBuilder()
-							.code(HttpStatus.INTERNAL_SERVER_ERROR.value())
-							.message("Erro interno do servidor")
-							.build(),
-					new ResponseMessageBuilder()
-							.code(HttpStatus.NOT_ACCEPTABLE.value())
-							.message("Recurso nao possui representacao que poderia ser aceita pelo consumidor")
-							.build()
-				);
+				new ResponseMessageBuilder().code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+						.message("Erro interno do servidor")
+						.responseModel(new ModelRef("Problema"))
+						.build(),
+				new ResponseMessageBuilder().code(HttpStatus.NOT_ACCEPTABLE.value())
+						.message("Recurso nao possui representacao que poderia ser aceita pelo consumidor").build());
 	}
-	
+
 	private List<ResponseMessage> globalPutResponseMessages() {
 		return Arrays.asList(
-					new ResponseMessageBuilder()
-							.code(HttpStatus.INTERNAL_SERVER_ERROR.value())
-							.message("Erro interno do servidor")
-							.build(),
-					new ResponseMessageBuilder()
-							.code(HttpStatus.NOT_ACCEPTABLE.value())
-							.message("Recurso nao possui representacao que poderia ser aceita pelo consumidor")
-							.build(),
-					new ResponseMessageBuilder()
-							.code(HttpStatus.BAD_REQUEST.value())
-							.message("Erro durante o processamento devido a requisicao incorreta")
-							.build(),
-					new ResponseMessageBuilder()
-							.code(HttpStatus.NOT_FOUND.value())
-							.message("Recurso nao encontrado")
-							.build(),
-					new ResponseMessageBuilder()
-							.code(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value())
-							.message("Media nao suportada")
-							.build()
-							
+				new ResponseMessageBuilder().code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+						.message("Erro interno do servidor")
+						.responseModel(new ModelRef("Problema"))
+						.build(),
+				new ResponseMessageBuilder().code(HttpStatus.NOT_ACCEPTABLE.value())
+						.message("Recurso nao possui representacao que poderia ser aceita pelo consumidor").build(),
+				new ResponseMessageBuilder().code(HttpStatus.BAD_REQUEST.value())
+						.message("Erro durante o processamento devido a requisicao incorreta")
+						.responseModel(new ModelRef("Problema"))
+						.build(),
+				new ResponseMessageBuilder().code(HttpStatus.NOT_FOUND.value()).message("Recurso nao encontrado")
+						.responseModel(new ModelRef("Problema"))
+						.build(),
+				new ResponseMessageBuilder().code(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value())
+						.message("Media nao suportada")
+						.responseModel(new ModelRef("Problema"))
+						.build()
+
 		);
 	}
-	
+
 	private List<ResponseMessage> globalPostResponseMessages() {
 		return Arrays.asList(
-					new ResponseMessageBuilder()
-							.code(HttpStatus.INTERNAL_SERVER_ERROR.value())
-							.message("Erro interno do servidor")
-							.build(),
-					new ResponseMessageBuilder()
-							.code(HttpStatus.NOT_ACCEPTABLE.value())
-							.message("Recurso nao possui representacao que poderia ser aceita pelo consumidor")
-							.build(),
-					new ResponseMessageBuilder()
-							.code(HttpStatus.BAD_REQUEST.value())
-							.message("Erro durante o processamento devido a requisicao incorreta")
-							.build(),
-					new ResponseMessageBuilder()
-							.code(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value())
-							.message("Media nao suportada")
-							.build()
-				);
+				new ResponseMessageBuilder().code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+						.message("Erro interno do servidor")
+						.responseModel(new ModelRef("Problema"))
+						.build(),
+				new ResponseMessageBuilder().code(HttpStatus.NOT_ACCEPTABLE.value())
+						.message("Recurso nao possui representacao que poderia ser aceita pelo consumidor").build(),
+				new ResponseMessageBuilder().code(HttpStatus.BAD_REQUEST.value())
+						.message("Erro durante o processamento devido a requisicao incorreta")
+						.responseModel(new ModelRef("Problema"))
+						.build(),
+				new ResponseMessageBuilder().code(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value())
+						.message("Media nao suportada")
+						.responseModel(new ModelRef("Problema"))
+						.build());
 	}
-	
+
 	private List<ResponseMessage> globalDeleteResponseMessages() {
 		return Arrays.asList(
-					new ResponseMessageBuilder()
-							.code(HttpStatus.INTERNAL_SERVER_ERROR.value())
-							.message("Erro interno do servidor")
-							.build(),
-					new ResponseMessageBuilder()
-							.code(HttpStatus.NOT_ACCEPTABLE.value())
-							.message("Recurso nao possui representacao que poderia ser aceita pelo consumidor")
-							.build(),
-					new ResponseMessageBuilder()
-							.code(HttpStatus.NOT_FOUND.value())
-							.message("Recurso nao encontrado")
-							.build(),
-					new ResponseMessageBuilder()
-							.code(HttpStatus.CONFLICT.value())
-							.message("Recurso esta sendo utilizado")
-							.build()
-				);
+				new ResponseMessageBuilder().code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+						.message("Erro interno do servidor")
+						.responseModel(new ModelRef("Problema"))
+						.build(),
+				new ResponseMessageBuilder().code(HttpStatus.NOT_ACCEPTABLE.value())
+						.message("Recurso nao possui representacao que poderia ser aceita pelo consumidor").build(),
+				new ResponseMessageBuilder().code(HttpStatus.NOT_FOUND.value()).message("Recurso nao encontrado")
+						.responseModel(new ModelRef("Problema"))
+						.build(),
+				new ResponseMessageBuilder().code(HttpStatus.CONFLICT.value()).message("Recurso esta sendo utilizado")
+						.responseModel(new ModelRef("Problema"))
+						.build());
 	}
-	
+
 	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder()
-					.title("AlgaFood API")
-					.description("API aberta para clientes e restaurantes")
-					.version("1")
-					.contact(new Contact("Lucas Henrique", "https://github.com/lucashenrique0023", "lucas.henrique0023@gmail.com"))
-					.build();
+		return new ApiInfoBuilder().title("AlgaFood API").description("API aberta para clientes e restaurantes")
+				.version("1").contact(new Contact("Lucas Henrique", "https://github.com/lucashenrique0023",
+						"lucas.henrique0023@gmail.com"))
+				.build();
 	}
-	
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("swagger-ui.html")
-			.addResourceLocations("classpath:/META-INF/resources/");
-		
-		registry.addResourceHandler("/webjars/**")
-			.addResourceLocations("classpath:/META-INF/resources/webjars/");
+		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+
+		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 	}
 }
