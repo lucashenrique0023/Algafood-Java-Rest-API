@@ -58,7 +58,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						typeResolver.resolve(Page.class, CozinhaModel.class),
 						CozinhasModelOpenApi.class))
 				.tags(new Tag("Cidades", "Gerencia as cidades"), 
-						new Tag("Grupos", "Gerencia os grupos")
+						new Tag("Grupos", "Gerencia os grupos"),
+						new Tag("Cozinhas", "Gerencia as cozinhas")
 				);
 	}
 
