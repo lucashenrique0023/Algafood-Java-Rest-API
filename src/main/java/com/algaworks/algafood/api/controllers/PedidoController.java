@@ -25,6 +25,7 @@ import com.algaworks.algafood.api.assembler.PedidoResumoModelAssembler;
 import com.algaworks.algafood.api.model.PedidoModel;
 import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.api.model.input.PedidoInput;
+import com.algaworks.algafood.api.openapi.controller.PedidoControllerOpenApi;
 import com.algaworks.algafood.core.PageableUtils.PageableTranslator;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
@@ -35,12 +36,9 @@ import com.algaworks.algafood.domain.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.EmissaoPedidoService;
 import com.algaworks.algafood.infrastructure.repository.spec.PedidoSpecs;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-
 @RestController
 @RequestMapping("/pedidos")
-public class PedidoController {
+public class PedidoController implements PedidoControllerOpenApi {
 
 	@Autowired
 	PedidoRepository pedidoRepository;
@@ -59,11 +57,7 @@ public class PedidoController {
 	
 	@Autowired
 	EmissaoPedidoService emissaoPedido;
-	
-	@ApiImplicitParams({
-		@ApiImplicitParam(value = "Nomes das propriedas para filtrar na resposta",
-				name = "campos", paramType = "query", type = "string")
-	})
+
 	@GetMapping
 	public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro,@PageableDefault(size = 10) Pageable pageable){
 		pageable = traduzirPageable(pageable);
