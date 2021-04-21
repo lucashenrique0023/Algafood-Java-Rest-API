@@ -21,6 +21,7 @@ import com.algaworks.algafood.api.assembler.RestauranteModelAssembler;
 import com.algaworks.algafood.api.model.RestauranteModel;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.api.model.view.RestauranteView;
+import com.algaworks.algafood.api.openapi.model.RestauranteBasicoModelOpenApi;
 import com.algaworks.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
@@ -29,6 +30,10 @@ import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import com.fasterxml.jackson.annotation.JsonView;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -46,31 +51,19 @@ public class RestauranteController {
 	@Autowired
 	RestauranteInputDisassembler restauranteInputDisassembler;
 	
-//	@GetMapping
-//	public MappingJacksonValue listar(@RequestParam(required = false) String projecao) {
-//		
-//		List<Restaurante> restaurantes = restauranteRepository.findAll();
-//		List<RestauranteModel> restaurantesModel = restauranteModelAssembler.toModelList(restaurantes);
-//		
-//		MappingJacksonValue restaurantesWrapper = new MappingJacksonValue(restaurantesModel);	
-//		restaurantesWrapper.setSerializationView(RestauranteView.Resumo.class);
-//		
-//		if ("apenas-nomes".equals(projecao)) {
-//			restaurantesWrapper.setSerializationView(RestauranteView.ApenasNomes.class);
-//		} else if ("completo".equals(projecao)) {
-//			restaurantesWrapper.setSerializationView(null);
-//		}
-//			
-//		return restaurantesWrapper;
-//	}
-	
+	@ApiOperation(value = "Lista restaurantes", response = RestauranteBasicoModelOpenApi.class)
+	@ApiImplicitParams({
+		@ApiImplicitParam(value = "Nome da projecao de pedidos", allowableValues = "apenas-nome",
+				name = "projecao", paramType = "query", type = "string")
+	})
 	@GetMapping()
 	@JsonView(RestauranteView.Resumo.class)
 	public List<RestauranteModel> listar() {
 		return restauranteModelAssembler.toModelList(restauranteRepository.findAll());
 	}
 
-	@GetMapping(params = "projecao=apenas-nomes")
+	@ApiOperation(value = "Lista restaurantes", hidden = true)
+	@GetMapping(params = "projecao=apenas-nome")
 	@JsonView(RestauranteView.ApenasNomes.class)
 	public List<RestauranteModel> listarApenasNomes() {
 		return restauranteModelAssembler.toModelList(restauranteRepository.findAll());
