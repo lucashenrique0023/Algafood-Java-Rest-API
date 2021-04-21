@@ -7,6 +7,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +19,9 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @RestController
 @RequestMapping(path = "/teste")
@@ -63,4 +69,20 @@ public class TesteController {
 	public Optional<Restaurante> restaurantePrimeiro() {
 		return restauranteRepository.buscarPrimeiroResultado();
 	}
+	
+	@GetMapping("/user")
+	public String user(@Valid User user) {
+		return user.getName();
+	}
+}
+
+@Getter
+@Setter
+class User {
+	
+	@NotBlank
+	private String name;
+	private Long lineNumber;
+	private String platform;
+	
 }
