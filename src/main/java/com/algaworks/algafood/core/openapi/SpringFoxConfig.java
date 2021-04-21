@@ -22,7 +22,6 @@ import com.fasterxml.classmate.TypeResolver;
 
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
@@ -48,19 +47,11 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("com.algaworks.algafood.api")).paths(PathSelectors.any())
-//						.paths(PathSelectors.ant("/restaurantes/*"))
 				.build().useDefaultResponseMessages(false)
 				.globalResponseMessage(RequestMethod.GET, globalGetResponseMessages())
 				.globalResponseMessage(RequestMethod.PUT, globalPutResponseMessages())
 				.globalResponseMessage(RequestMethod.POST, globalPostResponseMessages())
 				.globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
-				.globalOperationParameters(Arrays.asList(
-						new ParameterBuilder()
-							.name("campos")
-							.description("Nomes das propriedades para filtrar na resposta, separados por virgula")
-							.parameterType("query")
-							.modelRef(new ModelRef("string"))
-							.build()))
 				.additionalModels(typeResolver.resolve(Problem.class)).apiInfo(apiInfo())
 				.ignoredParameterTypes(ServletWebRequest.class)
 				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)

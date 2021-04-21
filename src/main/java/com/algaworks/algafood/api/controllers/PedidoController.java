@@ -35,6 +35,9 @@ import com.algaworks.algafood.domain.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.EmissaoPedidoService;
 import com.algaworks.algafood.infrastructure.repository.spec.PedidoSpecs;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+
 @RestController
 @RequestMapping("/pedidos")
 public class PedidoController {
@@ -57,6 +60,10 @@ public class PedidoController {
 	@Autowired
 	EmissaoPedidoService emissaoPedido;
 	
+	@ApiImplicitParams({
+		@ApiImplicitParam(value = "Nomes das propriedas para filtrar na resposta",
+				name = "campos", paramType = "query", type = "string")
+	})
 	@GetMapping
 	public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro,@PageableDefault(size = 10) Pageable pageable){
 		pageable = traduzirPageable(pageable);
