@@ -18,33 +18,33 @@ import io.swagger.annotations.ApiResponses;
 public interface FormaPagamentoControllerOpenApi {
 
 	@ApiOperation("Lista formas de pagamento")
-	public ResponseEntity<List<FormaPagamentoModel>> listar(ServletWebRequest request);
+	ResponseEntity<List<FormaPagamentoModel>> listar(ServletWebRequest request);
 	
 	@ApiOperation("Busca uma forma de pagamento por ID")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "ID da forma de pagamento invalido", response = Problem.class),
 		@ApiResponse(code = 404, message = "Forma de pagamento nao encontrada", response = Problem.class)
 	})
-	public ResponseEntity<FormaPagamentoModel> buscar(Long formaPagamentoId);
+	ResponseEntity<FormaPagamentoModel> buscar(Long formaPagamentoId);
 	
 	@ApiOperation("Cadastra uma forma de pagamento")
 	@ApiResponses({
 		@ApiResponse(code = 201, message = "Forma de Pagamento cadastrada")
 	})
-	public FormaPagamentoModel salvar(FormaPagamentoInput formaPagamentoInput);
+	FormaPagamentoModel salvar(FormaPagamentoInput formaPagamentoInput);
 	
 	@ApiOperation("Atualiza uma forma de pagamento por ID")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "Forma de Pagamento atualizada", response = Problem.class),
 		@ApiResponse(code = 404, message = "Forma de Pagamento nao encontrada", response = Problem.class)
 	})
-	public FormaPagamentoModel atualizar(Long formaPagamentoId, FormaPagamentoInput formaPagamentoInput);
+	FormaPagamentoModel atualizar(Long formaPagamentoId, FormaPagamentoInput formaPagamentoInput);
 	
 	@ApiOperation("Exclui uma Forma de Pagamento por ID")
 	@ApiResponses({
 		@ApiResponse(code = 204, message = "Forma de Pagamento excluida"),
 		@ApiResponse(code = 404, message = "Forma de Pagamento nao encontrada", response = Problem.class)
 	})
-	public void remover(Long formaPagamentoId);
+	void remover(Long formaPagamentoId);
 	
 }
