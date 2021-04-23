@@ -8,11 +8,10 @@ import java.net.URLStreamHandler;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.mail.Quota.Resource;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -77,6 +76,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						new Tag("Formas de Pagamento", "Gerencia as formas de pagamento"),
 						new Tag("Pedidos", "Gerencia os pedidos"),
 						new Tag("Estados", "Gerencia os estados"),
+						new Tag("Restaurantes", "Gerencia os restaurantes"),
 						new Tag("Produtos", "Gerencia os produtos de restaurantes"),
 						new Tag("Usuários", "Gerencia os usuários"),
 						new Tag("Estatísticas", "Estatísticas da AlgaFood"));
