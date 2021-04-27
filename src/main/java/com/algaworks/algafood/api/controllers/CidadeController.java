@@ -52,16 +52,15 @@ public class CidadeController implements CidadeControllerOpenApi {
 	}
 	
 
-	@SuppressWarnings("deprecation")
 	@GetMapping("/{cidadeId}")
 	public CidadeModel buscar(@PathVariable Long cidadeId) {	
 		CidadeModel cidadeModel = cidadeModelAssembler.toModel(cadastroCidade.buscarOuFalhar(cidadeId));
 		
-		cidadeModel.add(new Link("http://localhost:8080/cidades/1"));
+		cidadeModel.add(Link.of("http://localhost:8080/cidades/1"));
 		
-		cidadeModel.add(new Link("http://localhost:8080/cidades/1", "cidades"));
+		cidadeModel.add(Link.of("http://localhost:8080/cidades/1", "cidades"));
 		
-		cidadeModel.getEstado().add(new Link("http://localhost:8080/estados/1"));
+		cidadeModel.getEstado().add(Link.of("http://localhost:8080/estados/1"));
 		
 		return cidadeModel;
 	}
